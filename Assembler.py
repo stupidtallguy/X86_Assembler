@@ -1,13 +1,15 @@
 import time
 import re
+import os
 
+#-----------------------------------------------------------------------------------
 
 def start():
     print("<<<Hey!>>>") 
-    time.sleep(0.1)
+    time.sleep(1)
     print("<<<Welcome to Assembler>>>")
-    time.sleep(0.1)
-    option = int(input("Choose an Option For Assembling : \n1)File\n2)Command"))
+    time.sleep(1)
+    option = int(input("Choose an Option For Assembling : \n1)File\n2)Command\n"))
     if option == 1:
         assemble_from_file()
     elif option == 2:
@@ -15,6 +17,8 @@ def start():
         pass
     else :
         print("Wrong input Please Try again!")
+
+# -----------------------------------------------------------------------------------
 
 def print_hex_offsets(used_bytes_list):
     offset = 0
@@ -24,6 +28,7 @@ def print_hex_offsets(used_bytes_list):
         print(f"0x{hex_offset}:")
         offset += used_bytes
 
+# -----------------------------------------------------------------------------------
 
 def convertFunc(number):
     return (binary_to_hex_dict[number[0][0:4]] + binary_to_hex_dict[number[0][4:8]] + " " +
@@ -44,8 +49,10 @@ def convert16Func(number):
     return ('66 ' + binary_to_hex_dict[number[0][0:4]] + binary_to_hex_dict[number[0][4:8]] +
           binary_to_hex_dict[number[0][8:12]] + binary_to_hex_dict[number[0][12:16]])
 
+# -----------------------------------------------------------------------------------
 
 def assemble(instruction, first_arg, second_arg):
+    number = []
     if first_arg in registers_32bit and second_arg in registers_32bit:
         number.append(instructionOpcode[instruction]+'01' + '11' +
                       registers_32bit[second_arg]+registers_32bit[first_arg])
@@ -91,30 +98,35 @@ def assemble(instruction, first_arg, second_arg):
             instructionOpcode[instruction] + registers_16bit[first_arg])
         return convert16Func2(number)
 
+# -----------------------------------------------------------------------------------
+
 def assemble_from_file():
     file_path = input("Please Enter Your File Path To Assemble: ")
-    with open(file_path, 'r') as file : #Opening file to assemble
-        code = file.read()
+    code = ""
+    if os.path.exists(file_path):
+        with open(file_path, 'r') as file:
+            code = file.read()
+    else:
+        print("File not found. Please check the file path.")
     #Spliting each line and get the instructions and ...
     lines = code.split('\n')
     offset = 0
     offsets = [] 
     for line in lines:
         if line != '':
-            
+
             number = []
             component = re.split(r'\s|,\s*', line)
-            instruction = component[0].upper
+            instruction = component[0]
             arg1 = component[1]
-            arg2 = component[2] if len(components) > 2 else None
+            arg2 = component[2] if len(component) > 2 else None
             hex_offset = format(offset, f'0{16}X')
             s = assemble(instruction,arg1,arg2)
             increase = len(s.replace(" ","")) // 2
-            print(f"0x{hex_offset}:" + s)
-            hex_offset += increase
+            print(f"0x{hex_offset} : " + s)
+            offset += increase
 
-
-
+# -----------------------------------------------------------------------------------
 
 binary_to_hex_dict = {
     '0000': '0', '0001': '1', '0010': '2', '0011': '3', '0100': '4',
@@ -139,3 +151,6 @@ instructionOpcode = {
     'ADD': '000000', 'SUB': '001010', 'AND': '001000', 'OR': '000010', 'XOR': '001100', 'PUSH': '01010',
     'POP': '01011', 'INC': '01000', 'DEC': '01001'
 }
+
+# -----------------------------------------------------------------------------------
+start()
