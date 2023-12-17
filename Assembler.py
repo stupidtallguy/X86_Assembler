@@ -1,4 +1,6 @@
 import time
+import re
+
 
 def start():
     print("<<<Hey!>>>") 
@@ -14,9 +16,33 @@ def start():
     else :
         print("Wrong input Please Try again!")
 
-def assemble_from_file():
-    # document why this method is empty
+def print_hex_offsets(used_bytes_list):
+    offset = 0
+    for used_bytes in used_bytes_list:
+        # Ensure a total of 16 digits with leading zeros
+        hex_offset = format(offset, f'0{16}X')
+        print(f"0x{hex_offset}:")
+        offset += used_bytes
+
+
+def assemble(Isntruction1,FArg,SArg):
     pass
+
+def assemble_from_file():
+    file_path = input("Please Enter Your File Path To Assemble: ")
+    with open(file_path, 'r') as file : #Opening file to assemble
+        code = file.read()
+    #Spliting each line and get the instructions and ...
+    lines = code.split('\n')
+    number = 0
+    for line in lines:
+        if line != '':
+            number += 1
+            component = re.split(r'\s|,\s*', line)
+            instruction = component[0].upper
+            arg1 = component[1]
+            arg2 = component[2] if len(components) > 2 else None
+
 
 
 binary_to_hex_dict = {
