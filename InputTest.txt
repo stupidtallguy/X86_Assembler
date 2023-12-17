@@ -1,1 +1,2 @@
-ADD eax, ecx
+ADD eax, [ebx]
+SUB [ecx], edx
