@@ -2,23 +2,27 @@ import time
 import re
 import os
 
-#-----------------------------------------------------------------------------------
+#----------------------------------------------------------------------------------- Functions
 
 def start():
     print("<<<Hey!>>>") 
     time.sleep(1)
     print("<<<Welcome to Assembler>>>")
     time.sleep(1)
-    option = int(input("Choose an Option For Assembling : \n1)File\n2)Command\n"))
+    option = int(input("Choose an Option For Assembling : \n1)File\n2)Manual\n"))
     if option == 1:
+        # TODO: Opens a file from file path that we want 
         assemble_from_file()
     elif option == 2:
-        # TODO: Use Command Line to Assemble
+        # TODO: Assemble without file 
         pass
     else :
         print("Wrong input Please Try again!")
 
-# -----------------------------------------------------------------------------------
+# ----------------------------------------------------------------------
+def 
+
+# ----------------------------------------------------------------------
 
 def print_hex_offsets(used_bytes_list):
     offset = 0
@@ -28,7 +32,7 @@ def print_hex_offsets(used_bytes_list):
         print(f"0x{hex_offset}:")
         offset += used_bytes
 
-# -----------------------------------------------------------------------------------
+# ----------------------------------------------------------------------
 
 def convertFunc(number):
     return (binary_to_hex_dict[number[0][0:4]] + binary_to_hex_dict[number[0][4:8]] + " " +
@@ -49,7 +53,7 @@ def convert16Func(number):
     return ('66 ' + binary_to_hex_dict[number[0][0:4]] + binary_to_hex_dict[number[0][4:8]] +
           binary_to_hex_dict[number[0][8:12]] + binary_to_hex_dict[number[0][12:16]])
 
-# -----------------------------------------------------------------------------------
+# ----------------------------------------------------------------------
 
 def assemble(instruction, first_arg, second_arg):
     number = []
@@ -98,7 +102,7 @@ def assemble(instruction, first_arg, second_arg):
             instructionOpcode[instruction] + registers_16bit[first_arg])
         return convert16Func2(number)
 
-# -----------------------------------------------------------------------------------
+# ----------------------------------------------------------------------
 
 def assemble_from_file():
     file_path = input("Please Enter Your File Path To Assemble: ")
@@ -111,10 +115,11 @@ def assemble_from_file():
     #Spliting each line and get the instructions and ...
     lines = code.split('\n')
     offset = 0
-    offsets = [] 
+    offsets = {} 
+    line_number = 0
     for line in lines:
         if line != '':
-
+            line_number += 1
             number = []
             component = re.split(r'\s|,\s*', line)
             instruction = component[0]
@@ -124,9 +129,10 @@ def assemble_from_file():
             s = assemble(instruction,arg1,arg2)
             increase = len(s.replace(" ","")) // 2
             print(f"0x{hex_offset} : " + s)
+            offsets[hex_offset] = line_number
             offset += increase
 
-# -----------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------------- Dictionaries 
 
 binary_to_hex_dict = {
     '0000': '0', '0001': '1', '0010': '2', '0011': '3', '0100': '4',
