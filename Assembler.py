@@ -9,15 +9,8 @@ def start():
     time.sleep(1)
     print("<<<Welcome to Assembler>>>")
     time.sleep(1)
-    option = int(input("Choose an Option For Assembling : \n1)File\n2)Manual\n"))
-    if option == 1:
-        # TODO: Opens a file from file path that we want 
-        assemble_from_file()
-    elif option == 2:
-        # TODO: Assemble without file 
-        pass
-    else :
-        print("Wrong input Please Try again!")
+    assemble_from_file()
+
 
 # ----------------------------------------------------------------------
 
@@ -25,13 +18,6 @@ def start():
 
 # ----------------------------------------------------------------------
 
-def print_hex_offsets(used_bytes_list):
-    offset = 0
-    for used_bytes in used_bytes_list:
-        # Ensure a total of 16 digits with leading zeros
-        hex_offset = format(offset, f'0{16}X')
-        print(f"0x{hex_offset}:")
-        offset += used_bytes
 
 # ----------------------------------------------------------------------
 
