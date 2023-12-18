@@ -44,50 +44,71 @@ def convert16Func(number):
 
 def assemble(instruction, first_arg, second_arg):
     number = []
-    if first_arg in registers_32bit and second_arg in registers_32bit:
-        number.append(instructionOpcode[instruction]+'01' + '11' +
-                      registers_32bit[second_arg]+registers_32bit[first_arg])
-        return convertFunc(number)
-    elif first_arg in registers_16bit and second_arg in registers_16bit:
-        number.append(instructionOpcode[instruction]+'01' + '11' +
-                      registers_16bit[second_arg]+registers_16bit[first_arg])
-        return convert16Func(number)
-    elif first_arg in registers_8bit and second_arg in registers_8bit:
-        number.append(instructionOpcode[instruction] + '00' + '11' +
-                      registers_8bit[second_arg] + registers_8bit[first_arg])
-        return convertFunc(number)
-    elif first_arg in registers_32bit_MOD00 and second_arg in registers_32bit:
-        number.append(instructionOpcode[instruction] + '01' + '00' +
-                      registers_32bit[second_arg] + registers_32bit_MOD00[first_arg])
-        return convertFunc(number)
-    elif first_arg in registers_32bit_MOD00 and second_arg in registers_16bit:
-        number.append(instructionOpcode[instruction] + '01' + '00' +
-                      registers_16bit[second_arg] + registers_32bit_MOD00[first_arg])
-        return convert16Func(number)
-    elif first_arg in registers_32bit_MOD00 and second_arg in registers_8bit:
-        number.append(instructionOpcode[instruction] + '00' + '00' +
-                      registers_8bit[second_arg] + registers_32bit_MOD00[first_arg])
-        return convertFunc(number)
-    elif first_arg in registers_32bit and second_arg in registers_32bit_MOD00:
-        number.append(instructionOpcode[instruction] + '11' + '00' +
-                      registers_32bit[first_arg] + registers_32bit_MOD00[second_arg])
-        return convertFunc(number)
-    elif first_arg in registers_16bit and second_arg in registers_32bit_MOD00:
-        number.append(instructionOpcode[instruction] + '11' + '00' +
-                      registers_16bit[first_arg] + registers_32bit_MOD00[second_arg])
-        return convert16Func(number)
-    elif first_arg in registers_8bit and second_arg in registers_32bit_MOD00:
-        number.append(instructionOpcode[instruction] + '10' + '00' +
-                      registers_8bit[first_arg] + registers_32bit_MOD00[second_arg])
-        return convertFunc(number)
-    elif first_arg in registers_32bit:
-        number.append(
-            instructionOpcode[instruction] + registers_32bit[first_arg])
-        return convertFunc2(number)
-    elif first_arg in registers_16bit:
-        number.append(
-            instructionOpcode[instruction] + registers_16bit[first_arg])
-        return convert16Func2(number)
+    if second_arg is None:
+        # Handle cases where second_arg is None
+        if first_arg in registers_32bit:
+            number.append(instructionOpcode[instruction] + registers_32bit[first_arg])
+            return convertFunc2(number)
+        elif first_arg in registers_16bit:
+            number.append(instructionOpcode[instruction] + registers_16bit[first_arg])
+            return convert16Func2(number)
+        elif first_arg in registers_8bit:
+            number.append(instructionOpcode[instruction] + '00' + '11' + registers_8bit[first_arg])
+            return convertFunc(number)
+        elif first_arg in registers_32bit_MOD00:
+            number.append(instructionOpcode[instruction] + '01' + '00' + registers_32bit_MOD00[first_arg])
+            return convertFunc(number)
+        elif first_arg in registers_16bit_MOD00:
+            number.append(instructionOpcode[instruction] + '01' + '00' + registers_16bit_MOD00[first_arg])
+            return convert16Func(number)
+        elif first_arg in registers_8bit_MOD00:
+            number.append(instructionOpcode[instruction] + '00' + '00' + registers_8bit_MOD00[first_arg])
+            return convertFunc(number)
+    else :
+        if first_arg in registers_32bit and second_arg in registers_32bit:
+            number.append(instructionOpcode[instruction]+'01' + '11' +
+                        registers_32bit[second_arg]+registers_32bit[first_arg])
+            return convertFunc(number)
+        elif first_arg in registers_16bit and second_arg in registers_16bit:
+            number.append(instructionOpcode[instruction]+'01' + '11' +
+                        registers_16bit[second_arg]+registers_16bit[first_arg])
+            return convert16Func(number)
+        elif first_arg in registers_8bit and second_arg in registers_8bit:
+            number.append(instructionOpcode[instruction] + '00' + '11' +
+                        registers_8bit[second_arg] + registers_8bit[first_arg])
+            return convertFunc(number)
+        elif first_arg in registers_32bit_MOD00 and second_arg in registers_32bit:
+            number.append(instructionOpcode[instruction] + '01' + '00' +
+                        registers_32bit[second_arg] + registers_32bit_MOD00[first_arg])
+            return convertFunc(number)
+        elif first_arg in registers_32bit_MOD00 and second_arg in registers_16bit:
+            number.append(instructionOpcode[instruction] + '01' + '00' +
+                        registers_16bit[second_arg] + registers_32bit_MOD00[first_arg])
+            return convert16Func(number)
+        elif first_arg in registers_32bit_MOD00 and second_arg in registers_8bit:
+            number.append(instructionOpcode[instruction] + '00' + '00' +
+                        registers_8bit[second_arg] + registers_32bit_MOD00[first_arg])
+            return convertFunc(number)
+        elif first_arg in registers_32bit and second_arg in registers_32bit_MOD00:
+            number.append(instructionOpcode[instruction] + '11' + '00' +
+                        registers_32bit[first_arg] + registers_32bit_MOD00[second_arg])
+            return convertFunc(number)
+        elif first_arg in registers_16bit and second_arg in registers_32bit_MOD00:
+            number.append(instructionOpcode[instruction] + '11' + '00' +
+                        registers_16bit[first_arg] + registers_32bit_MOD00[second_arg])
+            return convert16Func(number)
+        elif first_arg in registers_8bit and second_arg in registers_32bit_MOD00:
+            number.append(instructionOpcode[instruction] + '10' + '00' +
+                        registers_8bit[first_arg] + registers_32bit_MOD00[second_arg])
+            return convertFunc(number)
+        elif first_arg in registers_32bit:
+            number.append(
+                instructionOpcode[instruction] + registers_32bit[first_arg])
+            return convertFunc2(number)
+        elif first_arg in registers_16bit:
+            number.append(
+                instructionOpcode[instruction] + registers_16bit[first_arg])
+            return convert16Func2(number)
 
 # ----------------------------------------------------------------------
 
@@ -111,13 +132,18 @@ def assemble_from_file():
             component = re.split(r'\s|,\s*', line)
             instruction = component[0]
             arg1 = component[1]
-            arg2 = component[2] if len(component) > 2 else None
+            if len(component) > 2:
+                arg2 = component[2]
+            else: 
+               arg2 = None
             hex_offset = format(offset, f'0{16}X')
             s = assemble(instruction,arg1,arg2)
             increase = len(s.replace(" ","")) // 2
             print(f"0x{hex_offset} : " + s)
             offsets[hex_offset] = line_number
             offset += increase
+            
+                
 
 # ----------------------------------------------------------------------------------- Dictionaries 
 
