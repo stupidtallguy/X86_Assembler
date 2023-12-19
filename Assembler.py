@@ -6,7 +6,7 @@ labels = {}
 to_print = []
 jumps = []
 append_Flag = 0
-# hex_offset = format(offset, f'0{16}X')
+
 #----------------------------------------------------------------------------------- Functions
 
 def start():
