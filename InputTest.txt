@@ -1,2 +1,8 @@
-ADD eax, [ebx]
-SUB [ecx], edx
+JMP L1
+ADD al, bl
+L2 :
+SUB eax, ebx
+L1 :
+INC eax
+JMP L2
+ADD eax, ebx
